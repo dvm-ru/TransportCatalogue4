@@ -132,7 +132,7 @@ namespace json_reader {
         std::vector<std::pair<std::string, std::map<std::string, int>>> stops_w_dist; //vector of all distances between stops
         for (const auto& elem : requests_) { // 1st stage - Add Stops
             if (RequestStop* s = dynamic_cast<RequestStop*>(elem.get())) {
-                catalogue_.AddStop(s->name, s->latitude, s->longitude);
+                catalogue_.AddStop(s->name, { s->latitude, s->longitude });
                 if (!s->road_distances.empty()) {
                     stops_w_dist.emplace_back(std::make_pair(s->name, s->road_distances));
                 }

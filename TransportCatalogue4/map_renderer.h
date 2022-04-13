@@ -45,9 +45,9 @@ namespace map_renderer {
         SphereProjector(PointInputIt points_begin, PointInputIt points_end, double max_width,
             double max_height, double padding);
 
-        svg::Point operator()(geo::Coordinates coords) const {
-            return { (coords.lng - min_lon_) * zoom_coeff_ + padding_,
-                    (max_lat_ - coords.lat) * zoom_coeff_ + padding_ };
+        svg::Point operator()(geo::Coordinates coordinates) const {
+            return { (coordinates.lng - min_lon_) * zoom_coeff_ + padding_,
+                    (max_lat_ - coordinates.lat) * zoom_coeff_ + padding_ };
         }
 
     private:

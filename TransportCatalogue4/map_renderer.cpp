@@ -22,13 +22,13 @@ namespace map_renderer {
     }
 
     void MapRenderer::Render(std::ostream& out_stream) {
-        std::vector<geo::Coordinates> coords;
+        std::vector<geo::Coordinates> coordinates;
         for (const auto& [k, v] : stops_) {
             if (!v->buses.empty()) {
-                coords.emplace_back(v->geo);
+                coordinates.emplace_back(v->coordinates);
             }
         }
-        SphereProjector projector(coords.begin(), coords.end(), settings_.width, settings_.height, settings_.padding);
+        SphereProjector projector(coordinates.begin(), coordinates.end(), settings_.width, settings_.height, settings_.padding);
 
         std::set<const Bus*, BusSort> routes_to_render;
         for (const auto& route : routes_) {
@@ -49,7 +49,7 @@ namespace map_renderer {
         for (const auto& route : routes_to_render) {
             svg::Polyline line;
             for (const auto& stop : route->stops) {
-                line.AddPoint(projector(stops_.at(stop)->geo));
+                line.AddPoint(projector(stops_.at(stop)->coordinates));
             }
             line.SetFillColor("none");
             line.SetStrokeColor(settings_.color_palette[color_index % settings_.color_palette.size()]);
@@ -81,7 +81,7 @@ namespace map_renderer {
                     .SetStrokeWidth(settings_.underlayer_width)
                     .SetStrokeLineJoin(svg::StrokeLineJoin::ROUND)
                     .SetData(route_name)
-                    .SetPosition(projector(stops_.at(stop)->geo));
+                    .SetPosition(projector(stops_.at(stop)->coordinates));
                 doc_.Add(under_text);
                 text.SetFontFamily("Verdana"s)
                     .SetOffset({ settings_.bus_label_offset[0], settings_.bus_label_offset[1] })
@@ -89,7 +89,7 @@ namespace map_renderer {
                     .SetFontWeight("bold"s)
                     .SetFillColor(settings_.color_palette[color_index % settings_.color_palette.size()])
                     .SetData(route_name)
-                    .SetPosition(projector(stops_.at(stop)->geo));
+                    .SetPosition(projector(stops_.at(stop)->coordinates));
                 doc_.Add(text);
             }
             color_index++;
@@ -103,7 +103,7 @@ namespace map_renderer {
             if (!stop.second->buses.empty()) {
                 circle.SetRadius(settings_.stop_radius)
                     .SetFillColor("white"s)
-                    .SetCenter(projector(stop.second->geo));
+                    .SetCenter(projector(stop.second->coordinates));
                 doc_.Add(circle);
             }
         }
@@ -123,14 +123,14 @@ namespace map_renderer {
                     .SetStrokeWidth(settings_.underlayer_width)
                     .SetStrokeLineJoin(svg::StrokeLineJoin::ROUND)
                     .SetData(stop_name)
-                    .SetPosition(projector(stop.second->geo));
+                    .SetPosition(projector(stop.second->coordinates));
                 doc_.Add(under_text);
                 text.SetFontFamily("Verdana"s)
                     .SetOffset({ settings_.stop_label_offset[0], settings_.stop_label_offset[1] })
                     .SetFontSize(settings_.stop_label_font_size)
                     .SetFillColor("black")
                     .SetData(stop_name)
-                    .SetPosition(projector(stop.second->geo));
+                    .SetPosition(projector(stop.second->coordinates));
                 doc_.Add(text);
             }
 

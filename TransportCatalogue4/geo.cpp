@@ -5,6 +5,14 @@
 
 namespace geo {
 
+    bool Coordinates::operator==(const Coordinates& other) const {
+        return lat == other.lat && lng == other.lng;
+    }
+
+    bool Coordinates::operator!=(const Coordinates& other) const {
+        return !(*this == other);
+    }
+
     double ComputeDistance(Coordinates from, Coordinates to) {
         using namespace std;
         if (from == to) {

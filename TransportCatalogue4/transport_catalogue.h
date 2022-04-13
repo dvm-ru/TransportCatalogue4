@@ -13,7 +13,7 @@
 #include <set>
 
 namespace transport_db {
-	struct SV_SV_Hasher {
+	struct SvSvHasher {
 		size_t operator()(const std::pair<std::string_view, std::string_view>& stop_to_stop) const {
 			return sv_hasher(stop_to_stop.first) + 37 * sv_hasher(stop_to_stop.second);
 		}
@@ -37,7 +37,7 @@ namespace transport_db {
 		};
 		RouteOutput GetRoute(std::string_view name);
 		///////////////////////////////////////////////////////////////////////////////////////////
-		void AddStop(std::string name, double lat, double lng);
+		void AddStop(std::string name, const geo::Coordinates& coordinates);
 		const Stop* SearchStop(std::string_view name) const;
 
 		struct StopOutput {
@@ -60,7 +60,7 @@ namespace transport_db {
 			return stops_;
 		}
 
-		using DistMap = std::unordered_map<std::pair<std::string_view, std::string_view>, int, SV_SV_Hasher>;
+		using DistMap = std::unordered_map<std::pair<std::string_view, std::string_view>, int, SvSvHasher>;
 		const DistMap& GetDistForRouter() const {
 			return dist_btw_stops_;
 		}
@@ -70,7 +70,7 @@ namespace transport_db {
 		std::deque<std::string> stops_names_; // storage for unique STOPS
 		std::deque<std::string> buses_names_; // storage for unique BUSES
 
-		std::unordered_map<std::pair<std::string_view, std::string_view>, int, SV_SV_Hasher> dist_btw_stops_; // STOP to STOP dist storage
+		std::unordered_map<std::pair<std::string_view, std::string_view>, int, SvSvHasher> dist_btw_stops_; // STOP to STOP dist storage
 
 		std::unordered_map<std::string_view, Stop> stops_;
 		std::unordered_map<std::string_view, Bus> routes_; // storage for ROUTES with all route STOPS inside

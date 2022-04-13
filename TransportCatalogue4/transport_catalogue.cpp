@@ -37,7 +37,7 @@ namespace transport_db {
 			double geo_distance = 0;
 			for (auto it = tmp.stops.begin(); it < prev(tmp.stops.end()); ++it) { // cycle from begin() to (end()-1)
 				road_distance += GetDistBtwStops((*it), *next(it));
-				geo_distance += ComputeDistance(SearchStop(*it)->geo, SearchStop(*(it + 1))->geo);
+				geo_distance += ComputeDistance(SearchStop(*it)->coordinates, SearchStop(*(it + 1))->coordinates);
 			}
 			result.route_length = road_distance;
 			result.curvature = road_distance / geo_distance;
@@ -45,10 +45,10 @@ namespace transport_db {
 		}
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////	
-	void  TransportCatalogue::AddStop(std::string name, double lat, double lng) {
+	void  TransportCatalogue::AddStop(std::string name, const geo::Coordinates& coordinates) {
 		std::string& ref_to_name = stops_names_.emplace_back(std::move(name)); // add string in deque
 		std::string_view sv_name{ ref_to_name }; // get reference to value in deque	
-		geo::Coordinates geo = { lat, lng };
+		geo::Coordinates geo = { coordinates.lat, coordinates.lng };
 		stops_[sv_name] = { sv_name, geo, {} }; // create unique STOP without distances to other stops (1st stage of adding STOPs)
 	}
 
@@ -83,7 +83,7 @@ namespace transport_db {
 		if (dist_btw_stops_.count(std::pair(name, name_to))) {
 			return dist_btw_stops_.at(std::pair(name, name_to));
 		}
-		else /*if (dist_btw_stops_.count(std::pair(name_to, name)))*/ { // Check reverse combination of STOP's names
+		else { // Check reverse combination of STOP's names
 			return dist_btw_stops_.at(std::pair(name_to, name));
 		}
 	}

@@ -9,7 +9,7 @@
 namespace domain {
 	struct Stop {
 		std::string_view name = {}; // stop name
-		geo::Coordinates geo = { {}, {} };
+		geo::Coordinates coordinates = { {}, {} };
 		std::set<std::string_view> buses; // set of buses for STOP
 		bool operator==(const Stop& other) const;
 	};
