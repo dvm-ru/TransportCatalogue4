@@ -91,9 +91,7 @@ namespace json {
 
 		class Context {
 		public:
-			Context(Builder& b)
-				:builder_(b) {
-			}
+			Context(Builder& b);
 
 			DictValue Key(const std::string& key); // for DictItem
 
@@ -113,23 +111,15 @@ namespace json {
 
 		class ArrayItem : public Context { // Aux. class for Array. Allows to add Value, start and end Array
 		public:
-			ArrayItem(Builder& b) // Delegate creation to parent class
-				:Context(b) {
-			}
-
-			ArrayItem Value(const NodeValue& value) {
-				return ArrayItem(ContValue(value)); // Delegate adding value into a node to parent (Context)
-			}
+			ArrayItem(Builder& b); // Delegate creation to parent class
+			ArrayItem Value(const NodeValue& value);
 			DictValue Key(const std::string& key) = delete; // N/A for an Array
 			Builder& EndDict() = delete; // N/A for an Array
 		};
 
 		class DictItem : public Context { // Aux. class for Array. Allows to add Value, start and end Array
 		public:
-			DictItem(Builder& b) // Delegate creation to parent class
-				:Context(b) {
-			}
-
+			DictItem(Builder& b); // Delegate creation to parent class
 			DictItem StartDict() = delete; // Cannot create new Map creation definition instead of Key definition
 			ArrayItem StartArray() = delete; // Array can be created only in Map's Value
 			Builder& EndArray() = delete; // Only ArrayItem class has right to end an Array
@@ -137,14 +127,8 @@ namespace json {
 
 		class DictValue : public Context {
 		public:
-			DictValue(Builder& b) // Delegate creation to parent class
-				:Context(b) {
-			}
-
-			DictItem Value(const NodeValue& value) {
-				return DictItem(ContValue(value)); // Delegate adding value into a node to parent (Context)
-			}
-
+            DictValue(Builder& b);
+            DictItem Value(const NodeValue& value);
 			DictValue Key(const std::string& key) = delete; 
 			Builder& EndDict() = delete; 
 			Builder& EndArray() = delete; 

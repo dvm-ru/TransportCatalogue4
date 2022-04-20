@@ -3,6 +3,9 @@
 #include <iomanip>
 
 namespace transport_db {
+	size_t SvSvHasher::operator()(const std::pair<std::string_view, std::string_view>& stop_to_stop) const {
+		return sv_hasher(stop_to_stop.first) + 37 * sv_hasher(stop_to_stop.second);
+	}
 	void TransportCatalogue::AddRoute(std::string name, const std::vector<std::string_view>& data, bool is_round, std::string_view end_stop) {
 		std::string& ref_to_name = buses_names_.emplace_back(std::move(name)); // add string in deque
 		std::string_view sv_name{ ref_to_name }; // get reference to value in deque

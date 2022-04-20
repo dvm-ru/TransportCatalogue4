@@ -14,9 +14,7 @@
 
 namespace transport_db {
 	struct SvSvHasher {
-		size_t operator()(const std::pair<std::string_view, std::string_view>& stop_to_stop) const {
-			return sv_hasher(stop_to_stop.first) + 37 * sv_hasher(stop_to_stop.second);
-		}
+		size_t operator()(const std::pair<std::string_view, std::string_view>& stop_to_stop) const;
 		std::hash<std::string_view> sv_hasher;
 	};
 
@@ -69,7 +67,7 @@ namespace transport_db {
 	private:
 		std::deque<std::string> stops_names_; // storage for unique STOPS
 		std::deque<std::string> buses_names_; // storage for unique BUSES
-
+		
 		std::unordered_map<std::pair<std::string_view, std::string_view>, int, SvSvHasher> dist_btw_stops_; // STOP to STOP dist storage
 
 		std::unordered_map<std::string_view, Stop> stops_;

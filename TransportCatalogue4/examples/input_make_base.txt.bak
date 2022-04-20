@@ -167,6 +167,9 @@
           }
       ]
 
+      "serialization_settings": {
+          "file": "transport_catalogue.db"
+      },
       "stat_requests": [
           {
               "id": 218563507,

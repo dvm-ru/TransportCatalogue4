@@ -539,6 +539,11 @@ namespace json {
     }
 
     /////AUXILIARY CLASSES AREA/////////////////////////////////////////////////////////  
+
+    Builder::Context::Context(Builder& b)
+        :builder_(b)
+    { }
+
     Builder::DictValue Builder::Context::Key(const std::string& key) {
         return builder_.Key(key);
     }
@@ -559,4 +564,25 @@ namespace json {
     Builder& Builder::Context::EndArray() {
         return builder_.EndArray();
     }
+
+    Builder::ArrayItem::ArrayItem(Builder& b)
+        :Context(b)
+    { }
+
+    Builder::ArrayItem Builder::ArrayItem::Value(const NodeValue& value) {
+        return ArrayItem(ContValue(value)); // Delegate adding value into a node to parent (Context)
+    }
+
+    Builder::DictItem::DictItem(Builder& b) // Delegate creation to parent class
+        : Context(b) {
+    }
+
+    Builder::DictValue::DictValue(Builder& b) // Delegate creation to parent class
+        : Context(b) {
+    }
+
+    Builder::DictItem Builder::DictValue::Value(const NodeValue& value){
+        return Builder::DictItem(ContValue(value)); // Delegate adding value into a node to parent (Context)
+    }
+
 } // namespace json
