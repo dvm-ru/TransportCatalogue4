@@ -1,4 +1,5 @@
 #include "json_reader.h"
+#include "json_builder.h"
 #include "svg.h"
 
 namespace json_reader {
