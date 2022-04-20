@@ -9,8 +9,6 @@
 using namespace std;
 using namespace std::literals::string_literals;
 
-using namespace std::literals;
-
 int main() {
 #ifdef AVRGR
     // задаём русский текст

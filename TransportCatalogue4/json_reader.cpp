@@ -1,4 +1,5 @@
 #include "json_reader.h"
+#include "json_builder.h"
 #include "svg.h"
 
 namespace json_reader {
@@ -149,11 +150,9 @@ namespace json_reader {
                 std::string_view end_stop = stops.back();
                 if (!b->is_roundtrip) {
                     stops.reserve(2 * stops.size());
-                    stops.insert(stops.end(), next(stops.rbegin()), stops.rend()); // all stops of route are adding beffore 
-                                                                                    // adding it in catalogue
+                    stops.insert(stops.end(), next(stops.rbegin()), stops.rend()); // all stops of route are adding beffore adding it in catalogue
                 }
-                catalogue_.AddRoute(b->name, stops, b->is_roundtrip, end_stop); // Set end_stop name from request for detecting 
-                                                                                // condition with wrong input of b->is_roundtrip 
+                catalogue_.AddRoute(b->name, stops, b->is_roundtrip, end_stop); // Set end_stop name from request for detecting condition with wrong input of b->is_roundtrip 
             }
         }
         for (auto& [main_stop, des_stops] : stops_w_dist) { // 3rd stage - Add distances between Stops
