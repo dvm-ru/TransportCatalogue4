@@ -184,5 +184,4 @@ namespace json {
     Builder& ArrayContext::EndArray() {
         return builder_.EndArray();
     }
-
 } // json
