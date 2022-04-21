@@ -265,5 +265,4 @@ namespace json_reader {
     void JsonReader::FillRender(const std::map<std::string, Node>& dic) { // add Add Render settings request
         renderer_.SetSettings(RenderMap(dic));
     }
-
 }
