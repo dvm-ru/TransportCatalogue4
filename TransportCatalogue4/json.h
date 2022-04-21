@@ -25,7 +25,6 @@ namespace json {
     class Node final
         : private std::variant<std::nullptr_t, Array, Dict, bool, int, double, std::string> {
     public:
-        // Делаем доступными все конструкторы родительского класса variant
         using variant::variant;
         using Value = variant;
     public:

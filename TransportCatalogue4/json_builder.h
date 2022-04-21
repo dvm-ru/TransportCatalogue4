@@ -33,6 +33,7 @@ namespace json {
         Builder& Value(const Node::Value& val);
         Node Build() const;
         void AddNode(Node&& node);
+
     private:
         std::optional<Node> root_;
         std::vector<Step> step_stack_;
@@ -48,6 +49,7 @@ namespace json {
         DictItemContext(Builder& builder);
         DictValueContext Key(const std::string& key);
         Builder& EndDict();
+
     private:
         Builder& builder_;
     };
@@ -58,6 +60,7 @@ namespace json {
         DictItemContext Value(const Node::Value& val);
         DictItemContext StartDict();
         ArrayContext StartArray();
+
     private:
         Builder& builder_;
     };
@@ -69,7 +72,9 @@ namespace json {
         DictItemContext StartDict();
         ArrayContext StartArray();
         Builder& EndArray();
+
     private:
         Builder& builder_;
     };
+
 } // namespace json

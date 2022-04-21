@@ -1,3 +1,18 @@
+{
+    "key1": 123,
+    "key2": "value2",
+    "key3": [
+        456,
+        {
+
+        },
+        {
+            "": null
+        },
+        ""
+    ]
+}
+"just a string"
 [
 {
     "curvature": 1.60481,
