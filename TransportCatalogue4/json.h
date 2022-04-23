@@ -22,7 +22,7 @@ namespace json {
     class Node final
         : private std::variant<std::nullptr_t, Array, Dict, bool, int, double, std::string> {
     public:
-        using variant::variant;
+        using variant::variant; //Ќаследование и полиморфизм. ƒругие виды наследовани€: делаем доступными все конструкторы родительского класса variant
         using Value = variant;
     public:
         //¬ернуть значение варианта variant (std::get<...>)
